@@ -19,7 +19,7 @@ def get_autostop_instances():
       for tag in tags:
         if tag['Key'] == "Autostop" and tag['Value'] == "Yes":
           instanceids.append(instance_id)
-  logger.info(f"Found running instance: {instance_id}")
+  logger.info(f"Found instances with autostop tags: {instance_id}")
   return instanceids
 
 def stop_autostop_instances(instanceids):
