@@ -26,16 +26,24 @@ def stop_autostop_instances(instanceids):
   if not instanceids:
     logger.info("No instances found to stop")
     return
-  logger.info("stopping instances: {instanceids}")
-  ec2.stop_instances(InstanceIds=instanceids)
-  logger.info("Successfully initiated stop request")
+  try:
+    logger.info(f"stopping instances: {instanceids}")
+    ec2.stop_instances(InstanceIds=instanceids,DryRun=True)
+    logger.info("Successfully initiated stop request")
+  except ClientError as e:
+    if "DryRunOperation" in str(e):
+      logger.info("Dry Run Successfull")
+    else:
+      logger.info("Dry Run UnSuccessfull")
   
 def lambda_handler(event,context):
   logger.info("Lambda execution started")
   instanceids = get_autostop_instances()
   stop_autostop_instances(instanceids)
-  logger.info("Lambda execution ]completed")
+  logger.info("Lambda execution completed")
   return {
     "statusCode": "200",
     "body": "Lambda Execution completed"
   }
+
+#this lambda function can be integrated with eventbridge trigger(cron) to trigger the lambda at a suitable timings.
