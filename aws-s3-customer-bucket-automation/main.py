@@ -1,4 +1,4 @@
-#this lambda function helps you create s3 bucket for each one of your customer, if you intend to store their logs separately.
+#this lambda function helps you create s3 bucket for each one of your customer(incase if you have huge number of customers), if you intend to store their logs separately.
 
 import sys
 import boto3
